@@ -1,0 +1,28 @@
+# Environment
+.env
+.env.local
+!.env.example
+backend/.env
+frontend/.env.local
+
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+npm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
