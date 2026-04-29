@@ -13,6 +13,22 @@ export type HealthResponse = {
   timestamp: string;
 };
 
+export type RootResponse = {
+  service: string;
+  version: string;
+  phase: number;
+  docs: string;
+  health: string;
+};
+
+export async function fetchRoot(): Promise<RootResponse> {
+  const res = await fetch(`${getPublicApiBaseUrl()}/`, { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`API root failed: ${res.status}`);
+  }
+  return res.json() as Promise<RootResponse>;
+}
+
 export async function fetchHealth(): Promise<HealthResponse> {
   const res = await fetch(`${getPublicApiBaseUrl()}/health`, {
     cache: "no-store",

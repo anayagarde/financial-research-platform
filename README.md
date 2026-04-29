@@ -1,6 +1,17 @@
 # Multi-Agent Financial Research Platform
 
-Bloomberg-style financial research workspace: company data, SEC filings, news sentiment, portfolios, and agent-driven research. **Phase 1** provides the monorepo skeleton, Dockerized services, and a health check wired from the Next.js UI to the FastAPI backend.
+Bloomberg-style financial research workspace: company data, SEC filings, news sentiment, portfolios, and agent-driven research. **Phase 1** is the working baseline: monorepo, Docker Compose, API metadata + health, and the dashboard calling both.
+
+## Phase 1 checklist
+
+- [x] Monorepo: `frontend/` (Next.js + TS + Tailwind), `backend/` (FastAPI)
+- [x] `docker-compose.yml`: frontend, backend, Postgres, Redis (data + cache for later phases)
+- [x] Backend: `GET /` (metadata), `GET /health` (liveness), OpenAPI at `/docs`
+- [x] Backend **Docker HEALTHCHECK**; frontend waits for `backend` **healthy** before starting
+- [x] Lifespan hook stub in FastAPI (ready for DB pool in Phase 2)
+- [x] Env templates: root `.env.example`, `backend/.env.example`, `frontend/.env.example`
+- [x] README: Compose + local dev commands
+- [ ] Phase 2+: companies, filings, agents (see roadmap below)
 
 ## Repository layout
 
@@ -18,7 +29,7 @@ financial-research-platform/
 | Service    | Role |
 |-----------|------|
 | **frontend** | Next.js + TypeScript + Tailwind; home page calls backend `/health`. |
-| **backend**  | FastAPI API gateway shell; CORS, config, `/health` (DB/Redis clients added in later phases). |
+| **backend**  | FastAPI gateway: CORS, `GET /`, `GET /health`, lifespan stub (DB/Redis clients in Phase 2+). |
 | **postgres** | Primary datastore (used from Phase 2 onward; container runs in Phase 1 for parity). |
 | **redis**    | Cache / pub-sub (used from later phases; container runs in Phase 1 for parity). |
 
@@ -39,6 +50,7 @@ docker compose up --build
 Then open:
 
 - **Frontend:** http://localhost:3000  
+- **API root:** http://localhost:8000/  
 - **Backend health:** http://localhost:8000/health  
 - **API docs:** http://localhost:8000/docs  
 
